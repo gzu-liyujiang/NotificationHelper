@@ -12,10 +12,8 @@ import android.support.annotation.StringRes;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.text.Spanned;
-import com.wearcyan.framework.util.RandomUtils;
 
 /**
- * 通知帮助类。
  * 参见：https://github.com/halysongoncalves/pugnotification
  * <p/>
  * 示例:
@@ -45,7 +43,7 @@ public class NotifyHelper {
 
     private NotifyHelper(Context context) {
         this.context = context;
-        notificationId = RandomUtils.getRandom(9999);
+        notificationId = (new Random()).nextInt(9999);
         builder = new NotificationCompat.Builder(context);
         builder.setContentTitle("");
         builder.setContentText("");
