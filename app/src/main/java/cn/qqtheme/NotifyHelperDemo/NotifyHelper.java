@@ -1,3 +1,5 @@
+package cn.qqtheme.NotifyHelperDemo;
+
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -13,6 +15,9 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.text.Spanned;
 
+import java.util.HashMap;
+import java.util.Random;
+
 /**
  * 参见：https://github.com/halysongoncalves/pugnotification
  * <p/>
@@ -26,20 +31,20 @@ import android.text.Spanned;
  * .ticker("有新消息")
  * .smallIcon(R.drawable.ic_launcher)
  * .largeIcon(R.drawable.ic_launcher)
- * .click(WebsiteActivity.class)
+ * .click(MyActivity.class)
  * .show();
  *
  * @author 李玉江[QQ:1032694760]
  * @since 2015-08-10 17:79
- * Created By IntelliJ IDEA
  */
 public class NotifyHelper {
-    private static final String ACTION_NOTIFICATION_CLICK_INTENT = "com.wearcyan.framework.notify.intent.action.CLICK";
-    private static final String ACTION_NOTIFICATION_DISMISS_INTENT = "com.wearcyan.framework.notify.intent.action.DISMISS";
+    public static final String ACTION_NOTIFICATION_CLICK_INTENT = "liyujiang.notify.intent.action.CLICK";
+    public static final String ACTION_NOTIFICATION_DISMISS_INTENT = "liyujiang.notify.intent.action.DISMISS";
     private static NotifyHelper singleton = null;
-    private final Context context;
+    private Context context;
     private NotificationCompat.Builder builder;
     private int notificationId;
+    private HashMap<Integer, Integer> flagMap = new HashMap<Integer, Integer>();
 
     private NotifyHelper(Context context) {
         this.context = context;
@@ -55,9 +60,7 @@ public class NotifyHelper {
     public static NotifyHelper with(Context context) {
         if (singleton == null) {
             synchronized (NotifyHelper.class) {
-                if (singleton == null) {
-                    singleton = new NotifyHelper(context);
-                }
+                singleton = new NotifyHelper(context);
             }
         }
         return singleton;
@@ -67,7 +70,13 @@ public class NotifyHelper {
         if (id <= 0) {
             throw new IllegalStateException("Notification ID Should Not Be Less Than Or Equal To Zero!");
         }
+        flagMap.put(id, flagMap.get(this.notificationId));
         this.notificationId = id;
+        return this;
+    }
+
+    public NotifyHelper flags(int flags) {
+        flagMap.put(notificationId, flags);
         return this;
     }
 
@@ -221,6 +230,11 @@ public class NotifyHelper {
 
     public NotifyHelper autoCancel(boolean autoCancel) {
         builder.setAutoCancel(autoCancel);
+        return this;
+    }
+
+    public NotifyHelper ongoing(boolean ongoing) {
+        builder.setOngoing(ongoing);
         return this;
     }
 
@@ -430,14 +444,24 @@ public class NotifyHelper {
         return this;
     }
 
-    public void show() {
+    public Notification show() {
         NotificationManagerCompat nm = NotificationManagerCompat.from(context);
-        nm.notify(notificationId, builder.build());
+        Notification notification = builder.build();
+        if (flagMap.containsKey(notificationId)) {
+            notification.flags = flagMap.get(notificationId);
+        }
+        nm.notify(notificationId, notification);
+        singleton = null;//reset, so can build new notification
+        return notification;
     }
 
     public void cancel() {
+        cancel(notificationId);
+    }
+
+    public void cancel(int id) {
         NotificationManagerCompat nm = NotificationManagerCompat.from(context);
-        nm.cancel(notificationId);
+        nm.cancel(id);
     }
 
     public interface PendingIntentCallback {
