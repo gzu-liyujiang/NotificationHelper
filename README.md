@@ -1,10 +1,10 @@
-# What ?
+# What It ?
 A lite of "pugnotification" for creating notifications in android platform.
 # Thanks
 https://github.com/halysongoncalves/pugnotification
 # Sample
 ###example 1
-```
+```java
 NotifyHelper.with(context)
  .autoCancel(true)
  .when(System.currentTimeMillis())
@@ -18,7 +18,7 @@ NotifyHelper.with(context)
  .show();
  ```
 ###example 2
-```
+```java
         Bundle data = new Bundle();
         data.putString("test", "hello");
         NotifyHelper.with(this)
@@ -37,8 +37,8 @@ NotifyHelper.with(context)
      }
 
  ```
- ###example 3
-```
+###example 3
+```java
      NotifyHelper.with(this)
                 .identifier(10086)
                 .flags(Notification.FLAG_NO_CLEAR)
