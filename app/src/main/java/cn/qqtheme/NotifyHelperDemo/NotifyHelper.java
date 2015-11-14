@@ -70,7 +70,11 @@ public class NotifyHelper {
         if (id <= 0) {
             throw new IllegalStateException("Notification ID Should Not Be Less Than Or Equal To Zero!");
         }
-        flagMap.put(id, flagMap.get(this.notificationId));
+        Integer value = flagMap.get(this.notificationId);
+        if (value == null) {
+            value = Notification.DEFAULT_LIGHTS;
+        }
+        flagMap.put(id, value);
         this.notificationId = id;
         return this;
     }
