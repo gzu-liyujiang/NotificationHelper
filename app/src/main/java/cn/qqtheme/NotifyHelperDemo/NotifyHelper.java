@@ -52,7 +52,9 @@ public class NotifyHelper {
         builder = new NotificationCompat.Builder(context);
         builder.setContentTitle("标题");
         builder.setContentText("内容");
-        builder.setSmallIcon(context.getApplicationContext().getApplicationInfo().icon);
+        int icon = context.getApplicationContext().getApplicationInfo().icon;
+        builder.setSmallIcon(icon);
+        builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), icon));
         builder.setDefaults(Notification.DEFAULT_ALL);
         builder.setContentIntent(PendingIntent.getBroadcast(context, 0, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT));
     }
