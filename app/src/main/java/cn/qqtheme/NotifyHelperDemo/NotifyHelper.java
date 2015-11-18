@@ -50,9 +50,9 @@ public class NotifyHelper {
         this.context = context;
         notificationId = (new Random()).nextInt(9999);
         builder = new NotificationCompat.Builder(context);
-        builder.setContentTitle("");
-        builder.setContentText("");
-        builder.setSmallIcon(android.R.drawable.sym_action_chat);
+        builder.setContentTitle("标题");
+        builder.setContentText("内容");
+        builder.setSmallIcon(context.getApplicationContext().getApplicationInfo().icon);
         builder.setDefaults(Notification.DEFAULT_ALL);
         builder.setContentIntent(PendingIntent.getBroadcast(context, 0, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT));
     }
