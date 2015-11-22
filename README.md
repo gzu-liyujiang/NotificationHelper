@@ -28,6 +28,7 @@ NotifyHelper.with(context)
                 .message("this is content")
                 .click(MainActivity.class, data)
                 .show();
+                
      protected void onNewIntent(Intent paramIntent) {
         super.onNewIntent(paramIntent);
         String str = paramIntent.getAction();
@@ -39,7 +40,7 @@ NotifyHelper.with(context)
  ```
 ###example 3
 ```java
-     NotifyHelper.with(this)
+        NotifyHelper helper = NotifyHelper.with(this)
                 .identifier(10086)
                 .flags(Notification.FLAG_NO_CLEAR)
                 .title("title")
@@ -47,5 +48,5 @@ NotifyHelper.with(context)
                 .show();
 
 
-        NotifyHelper.with(this).cancel(10086);
+        helper.cancel(10086);
  ```
