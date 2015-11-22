@@ -40,12 +40,12 @@ NotifyHelper.with(context)
  ```
 ###example 3
 ```java
-        NotifyHelper helper = NotifyHelper.with(this)
-                .identifier(10086)
-                .flags(Notification.FLAG_NO_CLEAR)
-                .title("title")
-                .message("this is content")
-                .show();
+        NotifyHelper helper = NotifyHelper.with(this);
+        helper.identifier(10086);
+        helper.flags(Notification.FLAG_NO_CLEAR);
+        helper.title("title");
+        helper.message("this is content");
+        helper.show();
 
 
         helper.cancel(10086);
